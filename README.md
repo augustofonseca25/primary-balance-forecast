@@ -1,10 +1,5 @@
-# fiscal-balance-forecast
-This repository contains the codes for a forecast of the Brazilian Primary Fiscal Balance using a time series approach in a Deep Learning project.
-
-
-# LSTM - Times series - Tutorial <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Hertie_School_of_Governance_logo.svg/1200px-Hertie_School_of_Governance_logo.svg.png" width="150px" align="right" />
-## Understanding Household Energy Consumption: A Deep Learning Approach 
-
+# Fiscal-balance-forecast <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Hertie_School_of_Governance_logo.svg/1200px-Hertie_School_of_Governance_logo.svg.png" width="150px" align="right" />
+## This repository contains the codes for a forecast of the Brazilian Primary Fiscal Balance using a time series approach in a Deep Learning project.
 
 
 This tutorial was created specifically for the Deep Learning course within the Master of Data Science program at the Hertie School in Berlin/Germany.
