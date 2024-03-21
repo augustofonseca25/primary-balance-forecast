@@ -1,4 +1,4 @@
-Time,ARG_inflation,CAN_inflation,CHI_inflation,CHN_inflation,EUZ_inflation,UK_inflation,US_inflation
+Date,WD_ARG_inflation,WD_CAN_inflation,WD_CHI_inflation,WD_CHN_inflation,WD_EUZ_inflation,WD_UK_inflation,WD_US_inflation
 2001-01,,-0.4136505,0.3366913,1.021328,-0.4,-0.7,0.6321839
 2001-02,,0.5192108,-0.3074866,0.09999948,0.3,0.3,0.3997716
 2001-03,,0.3099174,0.4760628,-0.5999995,0.5,0.3,0.2275313

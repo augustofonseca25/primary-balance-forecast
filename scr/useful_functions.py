@@ -10,7 +10,7 @@ Module containing useful functions for the project.
 import pandas as pd
 from datetime import datetime, timedelta
 import numpy as np
-from statsmodels.tsa.stattools import adfuller
+from statsmodels.tsa.stattools import adfuller, acf
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
@@ -82,29 +82,6 @@ def define_end_period(date_format):
     return end_period
 
 
-def check_stationarity(time_series):
-    """
-    Checks the stationarity of the given time series.
-    
-    Args:
-        time_series: The serie to be checked.
-    
-    Returns:
-        p-value: if it's less than 0.05, the series is stationary, False otherwise.
-    """
-
-    # if len(clean_dataset(time_series)) > 0:
-
-    # Perform the Dickey-Fuller test
-    result = adfuller(time_series)
-    p_value = result[1] #extract the result of the test    
-
-    return p_value #threshold for the p-value
-    
-    # else:
-    #     return np.nan  # Return NaN if all data points are missing or infinite
-
-
 def clean_dataset(dataframe):
     """
     Cleans the given dataframe by removing any infinite or missing values.
@@ -122,89 +99,153 @@ def clean_dataset(dataframe):
     return clean_data
 
 
-def standardize_data(dataframe, type_choice='standardize', reverse=False, original_params=None):
-    """
-    Standardizes/normalizes the given dataframe and reverses the transformation if specified.
+# def standardize_data(dataframe, type_choice='standardize', reverse=False, original_params=None):
+#     """
+#     Standardizes/normalizes the given dataframe and reverses the transformation if specified.
     
-    Args:
-        dataframe: The dataframe to be standardized/normalized.
-        type_choice (str): The type of standardization to be performed ('standardize' or 'normalize').
-        reverse (bool): If True, reverses the transformation.
-        original_params: The parameters used for standardization/normalization.
+#     Args:
+#         dataframe: The dataframe to be standardized/normalized.
+#         type_choice (str): The type of standardization to be performed ('standardize' or 'normalize').
+#         reverse (bool): If True, reverses the transformation.
+#         original_params: The parameters used for standardization/normalization.
         
+#     Returns:
+#         DataFrame: The standardized/normalized dataframe.
+#     """
+#     numerical_cols = dataframe.select_dtypes(include=['float64', 'int64']).columns # Select numerical columns
+    
+
+#     # Check if it's to reverse the standardization/normalization
+#     if not reverse:
+#         if type_choice == 'standardize': # Check the type of standardization
+#             scaler = StandardScaler()
+#             scaled_data = scaler.fit_transform(dataframe[numerical_cols])
+#             params = {'mean': scaler.mean_, 'scale': scaler.scale_} # to be used for reverse transformation
+#         elif type_choice == 'normalize':
+#             scaler = MinMaxScaler()
+#             scaled_data = scaler.fit_transform(dataframe[numerical_cols])
+#             params = {'min': scaler.data_min_, 'max': scaler.data_max_} # to be used for reverse transformation
+#         dataframe[numerical_cols] = scaled_data # Update the numerical columns in the dataframe
+#         return dataframe, params # returns the dataframe and the parameters used for standardization/normalization
+#     else: # Reverse the transformation
+#         params = original_params # Retrieve the original parameters incase of reverse transformation
+#         if type_choice == 'standardize': # Check the type of the used standardization
+#             mean = params['mean'] # Get the mean and scale values
+#             scale = params['scale']
+#             dataframe[numerical_cols] = dataframe[numerical_cols] * scale + mean # Reverse the transformation
+#         elif type_choice == 'normalize': # Check the type of the used normalization
+#             min_val = params['min'] # Get the min and max values
+#             max_val = params['max']
+#             dataframe[numerical_cols] = (dataframe[numerical_cols] * (max_val - min_val) + min_val) # Reverse the transformation
+#         return dataframe
+
+
+# def scale_data(train_dataframe, test_dataframe, type_choice='standardize'):
+#     """
+#     Scales the given training and test dataframes using standardization.
+    
+#     Args:
+#         train_dataframe: DataFrame containing the training data.
+#         test_dataframe: DataFrame containing the test data.
+#         type_choice (str): The type of scaling to be performed ('standardize' or 'normalize').
+        
+#     Returns:
+#         A tuple containing the scaled training dataframe, the scaled test dataframe, and the parameters used for the scaling.
+#     """
+#     numerical_cols = train_dataframe.select_dtypes(include=['float64', 'int64']).columns  # Select numerical columns
+#     # Create a scaler object
+#     scaler = StandardScaler() if type_choice == 'standardize' else MinMaxScaler(feature_range=(0,1))
+    
+#     # Fit and transform on the training data
+#     scaled_train_data = scaler.fit_transform(train_dataframe[numerical_cols])
+#     train_dataframe[numerical_cols] = scaled_train_data
+    
+#     # Transform the test data using the same parameters
+#     scaled_test_data = scaler.transform(test_dataframe[numerical_cols])
+#     test_dataframe[numerical_cols] = scaled_test_data
+#     # Dictionary to store the parameters used for scaling to be used for reverse transformation
+#     params = {'mean': scaler.mean_, 'scale': scaler.scale_} if type_choice == 'standardize' else {'min': scaler.data_min_, 'max': scaler.data_max_}
+#     # Include index and column names in the scaled dataframes
+#     # train_dataframe = pd.DataFrame(train_dataframe, columns=df_adjusted.columns)
+#     # test_dataframe = pd.DataFrame(test_dataframe, columns=df_adjusted.columns)
+
+#     return train_dataframe, test_dataframe, params
+
+
+# def unscale_data(dataframe, original_params, type_choice='standardize'):
+#     """
+#     Reverses the scaling of the given dataframe using the provided original parameters.
+    
+#     Args:
+#         dataframe: DataFrame that was scaled and now needs to be unscaled.
+#         original_params (dict): The parameters used for the original scaling.
+#         type_choice (str): Indicates whether the original transformation was 'standardize' or 'normalize'.
+        
+#     Returns:
+#         DataFrame: The dataframe with the reversed scaling.
+#     """
+#     numerical_cols = dataframe.select_dtypes(include=['float64', 'int64']).columns  # Select numerical columns
+    
+#     if type_choice == 'standardize':
+#         mean = original_params['mean']
+#         scale = original_params['scale']
+#         dataframe[numerical_cols] = (dataframe[numerical_cols] * scale) + mean
+#     else:  # 'normalize'
+#         min_val = original_params['min']
+#         max_val = original_params['max']
+#         dataframe[numerical_cols] = (dataframe[numerical_cols] * (max_val - min_val)) + min_val
+    
+#     return dataframe
+
+
+def test_stationarity_and_differenciate(df, reverse=False, diff_dict=None):
+    """
+    Test each variable in the dataframe for stationarity using the Augmented Dickey-Fuller test.
+    If the p-value is greater than 0.05, the variable will be differenced.
+    Stores the initial value for possible reversal.
+    
+    Parameters:
+    - df: DataFrame to be tested and possibly differenced.
+    - reverse: If True, reverse the differencing based on a provided dictionary that includes initial values.
+    - diff_dict: Dictionary indicating which variables were differenced and their initial values.
+    
     Returns:
-        DataFrame: The standardized/normalized dataframe.
+    - DataFrame after testing for stationarity and applying differencing if needed.
+    - Dictionary indicating which variables were differenced and their initial values.
     """
-    numerical_cols = dataframe.select_dtypes(include=['float64', 'int64']).columns # Select numerical columns
+    if reverse:
+        if diff_dict is None:
+            print('No dictionary provided for reversing differencing.')
+            return df, None
+        for col, info in diff_dict.items():
+            if info['seasonal_differenced']:
+                # revert seasonal differencing
+                df[col] = df[col].shift(-12).fillna(0).cumsum() + info['initial_value']
+            if info['differenced']:
+                # Revert first order differencing
+                df[col] = df[col].cumsum()
+        return df
+    # Is it's not reversing differencing, let's test for stationarity and difference if needed
+    diff_dict = {}
+    for col in df.columns:
+        initial_value = df[col].iloc[0]
+        initial_index = df[col].index[0]
+        result = adfuller(df[col], autolag='AIC')
+        diff_seasonal = False
+        diff_1st = False
+        if result[1] > 0.05: # p-value > 0.05
+            df[col] = df[col].diff().dropna()
+            diff_1st = True
+        # Check for seasonality with autocorrelation at lag 12
+        acf_values = acf(df[col], nlags=12, fft=True)
+        if abs(acf_values[12]) > 0.75: # arbitrary threshold for significant seasonality
+            df[col] = df[col].diff(12).dropna()
+            diff_seasonal = True
+        diff_dict[col] = {'differenced': diff_1st, 'initial_value': initial_value, 'initial_index': initial_index, 'seasonal_differenced': diff_seasonal}
     
-
-    # Check if it's to reverse the transformation
-    if not reverse:
-        if type_choice == 'standardize': # Check the type of standardization
-            scaler = StandardScaler()
-            scaled_data = scaler.fit_transform(dataframe[numerical_cols])
-            params = {'mean': scaler.mean_, 'scale': scaler.scale_} # to be used for reverse transformation
-        elif type_choice == 'normalize':
-            scaler = MinMaxScaler()
-            scaled_data = scaler.fit_transform(dataframe[numerical_cols])
-            params = {'min': scaler.data_min_, 'max': scaler.data_max_} # to be used for reverse transformation
-        dataframe[numerical_cols] = scaled_data # Update the numerical columns in the dataframe
-        return dataframe, params # returns the dataframe and the parameters used for standardization/normalization
-    else: # Reverse the transformation
-        params = original_params # Retrieve the original parameters incase of reverse transformation
-        if type_choice == 'standardize': # Check the type of the used standardization
-            mean = params['mean'] # Get the mean and scale values
-            scale = params['scale']
-            dataframe[numerical_cols] = dataframe[numerical_cols] * scale + mean # Reverse the transformation
-        elif type_choice == 'normalize': # Check the type of the used normalization
-            min_val = params['min'] # Get the min and max values
-            max_val = params['max']
-            dataframe[numerical_cols] = (dataframe[numerical_cols] * (max_val - min_val) + min_val) # Reverse the transformation
-        return dataframe
-
-
-def apply_differecing(dataframe, order=1, reverse=False, variables_to_diff=None, first_obs = None):
-    """
-    Applies or reverses differencing to the given dataframe based on the 'reverse' parameter.
-    
-    Args:
-        dataframe (DataFrame): The dataframe to be differenced or reversed.
-        order (int): The order of differencing to be applied.
-        reverse (bool): If True, reverses the differencing; if False, applies differencing.
-        variables_to_diff (list): The list of variables to be differenced or reversed.
-        first_obs (DataFrame): The original dataframe to get the first observation for reversing differencing.
-    
-    Returns:
-        pd.DataFrame: The differenced or reversed dataframe.
-        list: The list of variables that were differenced.
-        int: The order of differencing applied.
-    """
-    
-    
-    if not reverse:  # Apply differencing
-        variables_to_diff = dataframe.columns.tolist()  # Start with all columns
-        df_ori = dataframe.copy()
-        for column in variables_to_diff:
-            if column != dataframe.index.name: # Not the index
-                p_value = check_stationarity(dataframe[column]) # Get the p_value for the ADF test
-                if not np.isnan(p_value) and p_value > 0.05: # Check if the p-value is greater than 0.05 and valid
-                    #dataframe[column] = dataframe[column].diff(order).fillna(0) # Take the first difference
-                    dataframe[column] = dataframe[column].diff(order).fillna(0) # Take the first difference
-                else:
-                    variables_to_diff.remove(column) # Remove the variable from the list of variables to difference
-        return dataframe, variables_to_diff, order, df_ori
-    
-    else:  # Reverse differencing
-        if first_obs is None:
-            raise ValueError("When reverse=True, 'first_obs' must be provided.")
-        else:
-            variables_to_reverse = list(variables_to_diff)
-            for column in variables_to_reverse:
-                #dataframe[column] = dataframe[column].cumsum().fillna(0)
-                dataframe[column] = dataframe[column].cumsum() + first_obs[column].iloc[order-1]
-            return dataframe
-
-
+    if diff_dict is not None: # If any variable was differenced
+        df = df.iloc[1:] # Remove the first row of the df which contains some NAs
+    return df, diff_dict
 
 
 def create_synthetic_data(dataframe, lags):
@@ -287,3 +328,85 @@ def plot_auto_correlation(model):
 
     plt.tight_layout()
     plt.show()
+
+
+# def replace_zeros_with_previous(df, column_name):
+#     """
+#     Replaces zeros in a column with the previous non-zero value.
+    
+#     Args:
+#         df (pd.DataFrame): The dataframe containing the column.
+#         column_name (str): The name of the column to be modified.
+    
+#     Returns:
+#         pd.DataFrame: The dataframe with zeros replaced by the previous non-zero value.
+#     """
+#     for i in range(1, len(df)):
+#         if df[column_name].iloc[i] == 0:
+#             df[column_name].iloc[i] = df[column_name].iloc[i-1]
+#     return df
+
+
+def remove_outliers(dataframe, threshold=0.20):
+    """
+    Replaces outliers in the dataframe with NAs
+    Args:
+        dataframe (pd.DataFrame): The dataframe to be modified.
+        threshold (float): The quantile threshold to identify outliers.
+
+    Returns:
+        pd.DataFrame: The dataframe with outliers replaced.
+    """
+    for column in dataframe.columns:
+        # Compute the first and third quartiles
+        Q1 = dataframe[column].quantile(threshold)
+        Q3 = dataframe[column].quantile(1 - threshold)
+        IQR = Q3 - Q1
+        
+        # compute the lower and upper bounds
+        lower_bound = Q1 - 1.5 * IQR
+        upper_bound = Q3 + 1.5 * IQR
+        
+        # Check if the values are outliers
+        is_outlier = (dataframe[column] < lower_bound) | (dataframe[column] > upper_bound)
+        # Replace outliers with NaN 
+        dataframe.loc[is_outlier, column] = np.nan
+        
+    return dataframe
+
+
+def fill_missing_values(dataframe):
+    """
+    Fills missing values in the given dataframe.
+    
+    Each column is converted to float.
+    NaNs are filled with the mean of the previous 6 observations. 
+    If not enough past data, uses the mean of available past observations.
+    If no past data is available, uses the mean of the next 6 observations,
+      prioritizing filling from the end of the DataFrame to the start.
+    
+    Args:
+        dataframe (pd.DataFrame): The dataframe to be modified.
+    
+    Returns:
+        pd.DataFrame: The dataframe with missing values filled.
+    """
+    # Convert every column to float
+    dataframe = dataframe.astype('float32')
+    
+    for column in dataframe.columns:
+        # Forward fill: Fill NaNs with the mean of the previous 6 observations
+        for index in range(len(dataframe)):
+            if pd.isna(dataframe.loc[dataframe.index[index], column]):
+                # Compute mean of past 6 or available observations
+                past_mean = dataframe[column].iloc[max(0, index-6):index].mean()
+                dataframe.at[dataframe.index[index], column] = past_mean if pd.notnull(past_mean) else np.nan
+                
+        # Backward fill: For remaining NaNs, fill with the mean of the next 6 observations
+        for index in range(len(dataframe)-1, -1, -1):  # Iterate in reverse order
+            if pd.isna(dataframe.loc[dataframe.index[index], column]):
+                # Compute mean of the next 6 or available observations
+                next_mean = dataframe[column].iloc[index+1:index+7].mean()
+                dataframe.at[dataframe.index[index], column] = next_mean if pd.notnull(next_mean) else np.nan
+    
+    return dataframe
