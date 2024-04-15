@@ -1,0 +1,38 @@
+File: ../data/data_orig_parameters.csv, Outlier Threshold: 0.2 -> Errors: {'MAPE': 2.2563441703272153, 'RMSE': 19416.23623310847, 'MAE': 16010.539701398899, 'Model_summary': <class 'statsmodels.iolib.summary.Summary'>
+"""
+                                      SARIMAX Results                                      
+===========================================================================================
+Dep. Variable:             ECO_fiscal_result_month   No. Observations:                  228
+Model:             SARIMAX(5, 1, 4)x(2, 0, [], 12)   Log Likelihood               -2362.667
+Date:                             Thu, 11 Apr 2024   AIC                           4749.333
+Time:                                     17:23:09   BIC                           4790.433
+Sample:                                 01-01-2001   HQIC                          4765.918
+                                      - 12-01-2019                                         
+Covariance Type:                               opg                                         
+==============================================================================
+                 coef    std err          z      P>|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+ar.L1         -0.2895      0.511     -0.566      0.571      -1.291       0.712
+ar.L2         -0.2268      0.538     -0.421      0.674      -1.282       0.828
+ar.L3          0.8647      0.551      1.569      0.117      -0.215       1.945
+ar.L4          0.1641      0.097      1.695      0.090      -0.026       0.354
+ar.L5          0.0980      0.096      1.026      0.305      -0.089       0.285
+ma.L1         -0.7579      0.503     -1.506      0.132      -1.744       0.229
+ma.L2         -0.0478      0.095     -0.501      0.616      -0.235       0.139
+ma.L3         -0.9023      0.082    -10.989      0.000      -1.063      -0.741
+ma.L4          0.7355      0.415      1.770      0.077      -0.079       1.550
+ar.S.L12       0.2912      0.071      4.077      0.000       0.151       0.431
+ar.S.L24       0.2313      0.074      3.138      0.002       0.087       0.376
+sigma2      7.444e+07   1.28e-08   5.83e+15      0.000    7.44e+07    7.44e+07
+===================================================================================
+Ljung-Box (L1) (Q):                   0.00   Jarque-Bera (JB):               408.39
+Prob(Q):                              0.96   Prob(JB):                         0.00
+Heteroskedasticity (H):              16.70   Skew:                             1.29
+Prob(H) (two-sided):                  0.00   Kurtosis:                         9.04
+===================================================================================
+
+Warnings:
+[1] Covariance matrix calculated using the outer product of gradients (complex-step).
+[2] Covariance matrix is singular or near-singular, with condition number 8.97e+31. Standard errors may be unstable.
+"""}
+
