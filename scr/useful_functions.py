@@ -2,20 +2,25 @@
 
 """
 Module containing useful functions for the project.
+#### References:
+- Eichner, A. (2023, December 1). Identifying and Handling Outliers in Pandas: A Step-By-Step Guide. Medium. https://python.plainenglish.io/identifying-and-handling-outliers-in-pandas-a-step-by-step-guide-fcecd5c6cd3b
+Contribution: The function remove_outliers was adapted from the code provided in the article.
+
+#### Packages
+- Package Pandas (2.2). (2024). [Python]. https://pandas.pydata.org/
+- Package NumPy (1.23). (2023). [Pyhton]. https://numpy.org/ - Harris, C. R., Millman, K. J., Van Der Walt, S. J., Gommers, R., Virtanen, P., Cournapeau, D., Wieser, E., Taylor, J., Berg, S., Smith, N. J., Kern, R., Picus, M., Hoyer, S., Van Kerkwijk, M. H., Brett, M., Haldane, A., Del Río, J. F., Wiebe, M., Peterson, P., … Oliphant, T. E. (2020). Array programming with NumPy. Nature, 585(7825), 357–362. https://doi.org/10.1038/s41586-020-2649-2
+- Droettboom, J. D. H., Michael. (2024). Package matplotlib (3.8.4) [Python]. https://matplotlib.org
+
 """
 ### Useful functions for the project ###
+
 
 # Import libraries
 
 import pandas as pd
 from datetime import datetime, timedelta
 import numpy as np
-#from statsmodels.tsa.stattools import adfuller, acf
-#from sklearn.preprocessing import StandardScaler, MinMaxScaler
 import matplotlib.pyplot as plt
-#import statsmodels.api as sm
-
-
 
 # # Script to adjust the date format
 # def adjust_index_date_format(dataframe):
@@ -63,6 +68,7 @@ def convert_df_to_monthly (dataframe, index_format):
     return dataframe_monthly # Return the new dataframe
 
 
+# Returns the last working day based on actual date
 def define_end_period(date_format): 
     """
     Define the last period to get data based on a format
@@ -99,100 +105,7 @@ def define_end_period(date_format):
 #     return clean_data
 
 
-# def test_stationarity_and_differenciate(df):
-#     """
-#     Tests for stationarity and difference if needed for the given dataframe.
-
-#     Parameters:
-#     - df: DataFrame to be tested and differenced if needed.
-
-#     Returns:
-#     - DataFrame after differencing.
-#     - Dictionary indicating which variables were differenced and their initial values.
-#     """
-#     diff_dict = {}
-#     for col in df.columns:
-#         initial_value = df[col].iloc[0]
-#         initial_index = df[col].index[0]
-#         result = adfuller(df[col], autolag='AIC')
-#         diff_seasonal = False
-#         diff_1st = False
-#         if result[1] > 0.05: # p-value > 0.05
-#             df[col] = df[col].diff().dropna()
-#             diff_1st = True
-#         # Check for seasonality with autocorrelation at lag 12
-#         acf_values = acf(df[col], nlags=12, fft=True)
-#         if abs(acf_values[12]) > 0.75: # arbitrary threshold for significant seasonality
-#             df[col] = df[col].diff(12).dropna()
-#             diff_seasonal = True
-#         diff_dict[col] = {'differenced': diff_1st, 'initial_value': initial_value, 'initial_index': initial_index, 'seasonal_differenced': diff_seasonal}
-    
-#     if diff_dict is not None: # If any variable was differenced
-#         df = df.iloc[1:] # Remove the first row of the df which contains some NAs
-#     return df, diff_dict
-
-
-# def reverse_differencing(df, diff_dict):
-#     """
-#     Reverses the differencing of the variables in the dataframe based on the provided dictionary.
-
-#     Parameters:
-#     - df: DataFrame to be reversed.
-#     - diff_dict: Dictionary indicating which variables were differenced and their initial values.
-
-#     Returns:
-#     - DataFrame after reversing differencing.
-#     """
-
-#     for col, info in diff_dict.items():
-#         # Check if the col exists in the dataframe
-#         if col not in df.columns:
-#             continue
-#         else:
-#             if info['seasonal_differenced']:
-#                 # revert seasonal differencing
-#                 df[col] = df[col].shift(-12).fillna(0).cumsum() + info['initial_value']
-#             if info['differenced']:
-#                 # Revert first order differencing
-#                 df[col] = df[col].cumsum()
-#     return df
-
-# def create_synthetic_data(dataframe, lags):
-#     """
-#     Creates a dataframe with lags for the given dataframe.
-    
-#     Args:
-#         dataframe (pd.DataFrame): The dataframe to be modified.
-#         lags (list): The list of lags to be created.
-    
-#     Returns:
-#         pd.DataFrame: The dataframe with lags.
-#     """
-#     # Get the original features' names
-#     features = dataframe.columns
-
-#     # Initialize a list to hold the new feature DataFrames
-#     new_features = []
-
-#     # Create lag and rolling window features for all variables
-#     for feature in features:
-#         for lag in lags:
-#             new_features.append(
-#                 dataframe[feature].shift(lag).rename(
-#                     f'{feature}_synthet_lag_{lag}'))
-#             new_features.append(
-#                 dataframe[feature].rolling(window=12).mean().rename(
-#                     f'{feature}_synthet_roll_mean_12'))
-#             new_features.append(
-#                 dataframe[feature].rolling(window=12).std().rename(
-#                     f'{feature}_synthet_roll_std_12'))
-
-#     # Convert the list of new features to a DataFrame
-#     sintetic_data = pd.concat(new_features, axis=1)
-
-#     return sintetic_data
-
-
+# Function to plot the prediction vs test data
 def plot_prediction_vs_test(target_variable, test, prediction, title):
     """
     Plots the prediction and test data.
@@ -220,25 +133,10 @@ def plot_prediction_vs_test(target_variable, test, prediction, title):
     plt.show()
 
 
-# def plot_auto_correlation(model):
-#     """
-#     Plots auto-correlation.
-    
-#     Args:
-#         model to get the residuals
-#     """
-#     # Plot ACF and PACF for the residuals
-#     fig, ax = plt.subplots(1, 2, figsize=(12, 5))
-#     sm.graphics.tsa.plot_acf(model, lags=40, ax=ax[0])
-#     sm.graphics.tsa.plot_pacf(model, lags=40, ax=ax[1])
-
-#     plt.tight_layout()
-#     plt.show()
-
 # Function to remove outliers
 def remove_outliers(dataframe, threshold=0.20):
     """
-    Replaces outliers in the dataframe with NAs based on the given threshold.
+    Replaces outliers in the dataframe with NAs based on the given threshold. IQR method is used.
     Args:
         dataframe (pd.DataFrame): The dataframe to be modified.
         threshold (float): The quantile threshold to identify outliers.
@@ -263,6 +161,7 @@ def remove_outliers(dataframe, threshold=0.20):
         dataframe.loc[is_outlier, column] = np.nan
         
     return dataframe
+
 
 # Function to fill missing values
 def fill_missing_values(dataframe):
