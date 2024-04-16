@@ -1,5 +1,5 @@
-# Deep Learning in economic indicator forecasting: The case of Brazil's primary balance. <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Hertie_School_of_Governance_logo.svg/1200px-Hertie_School_of_Governance_logo.svg.png" width="150px" align="right" />
-
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Hertie_School_of_Governance_logo.svg/1200px-Hertie_School_of_Governance_logo.svg.png" width="150px" align="right" />
+# Deep Learning in economic indicator forecasting: The case of Brazil's primary balance.
 This repository contains all the code files used in the Master Thesis final project for the Master of Data Science program at the Hertie School in Berlin, Germany.
 
 This project uses Autoregressive Integrated Moving Average (ARIMA) models as a baseline - due to their traditional use in economic forecasting - to compare with advanced deep learning models including Recurrent Neural Networks (RNN), Long Short-Term Memory (LSTM), and Gated Recurrent Unit (GRU) in predicting Brazilian Primary Balance. To that end, the models were trained using a dataset comprising monthly data from 2001-2023, including 69 independent variables related to various macroeconomic and financial factors, alongside one dependent variable.
