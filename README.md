@@ -1,4 +1,4 @@
-# Fiscal-balance-forecast <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Hertie_School_of_Governance_logo.svg/1200px-Hertie_School_of_Governance_logo.svg.png" width="150px" align="right" />
+# Primary-balance-forecast <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Hertie_School_of_Governance_logo.svg/1200px-Hertie_School_of_Governance_logo.svg.png" width="150px" align="right" />
 ## A forecast of the Brazilian Primary Fiscal Balance using a time series approach in a Deep Learning project.
 
 
