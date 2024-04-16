@@ -6,10 +6,6 @@ This project uses Autoregressive Integrated Moving Average (ARIMA) models as a b
 
 This project was implemented in Python using several different libraries. To organize and clearly state the references, each code script includes, at the beginning of the file, the references used, data sources, and applied packages.
 
-This is the general structure of this repository:
-
-* [Open Tutorial in Google Colab](https://githubtocolab.com/augustofonseca25/LSTM-time-series-tutorial/blob/main/Final_Forecast_Tutorial.ipynb)
-
 This is the logical structure of this repository:
 Folders:
 - data: contains all raw datasets as downloaded, the aggregated dataset (data_orig_parameters.csv), and the subset datasets after feature selection.
