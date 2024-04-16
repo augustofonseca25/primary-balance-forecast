@@ -1,5 +1,5 @@
-# Primary-balance-forecast <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Hertie_School_of_Governance_logo.svg/1200px-Hertie_School_of_Governance_logo.svg.png" width="150px" align="right" />
-## A forecast of the Brazilian Primary Balance using a time series approach in a Deep Learning project.
+# Primary Balance Forecast <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Hertie_School_of_Governance_logo.svg/1200px-Hertie_School_of_Governance_logo.svg.png" width="150px" align="right" />
+## Deep Learning in economic indicator forecasting: The case of Brazil's primary fiscal result.
 
 
 This repository contains all the code files used in the Master Thesis final project for the Master of Data Science program at the Hertie School in Berlin, Germany.
