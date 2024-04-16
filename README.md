@@ -6,7 +6,7 @@ This project uses Autoregressive Integrated Moving Average (ARIMA) models as a b
 
 This project was implemented in Python using several different libraries. To organize and clearly state the references, each code script includes, at the beginning of the file, the references used, data sources, and applied packages.
 
-This is the logical structure of this repository:
+This is the logical structure of this repository:  
 Folders:
 - data: contains all raw datasets as downloaded, the aggregated dataset (data_orig_parameters.csv), and the subset datasets after feature selection.
 - src: contains code files organized as follows:
