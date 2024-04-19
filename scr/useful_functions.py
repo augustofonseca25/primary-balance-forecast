@@ -6,7 +6,7 @@ Module containing useful functions for the project.
 - Eichner, A. (2023, December 1). Identifying and Handling Outliers in Pandas: A Step-By-Step Guide. Medium. https://python.plainenglish.io/identifying-and-handling-outliers-in-pandas-a-step-by-step-guide-fcecd5c6cd3b
 Contribution: The function remove_outliers was adapted from the code provided in the article.
 
-#### Packages
+#### Libraries
 - Package Pandas (2.2). (2024). [Python]. https://pandas.pydata.org/
 - Package NumPy (1.23). (2023). [Pyhton]. https://numpy.org/ - Harris, C. R., Millman, K. J., Van Der Walt, S. J., Gommers, R., Virtanen, P., Cournapeau, D., Wieser, E., Taylor, J., Berg, S., Smith, N. J., Kern, R., Picus, M., Hoyer, S., Van Kerkwijk, M. H., Brett, M., Haldane, A., Del Río, J. F., Wiebe, M., Peterson, P., … Oliphant, T. E. (2020). Array programming with NumPy. Nature, 585(7825), 357–362. https://doi.org/10.1038/s41586-020-2649-2
 - Droettboom, J. D. H., Michael. (2024). Package matplotlib (3.8.4) [Python]. https://matplotlib.org
@@ -22,31 +22,8 @@ from datetime import datetime, timedelta
 import numpy as np
 import matplotlib.pyplot as plt
 
-# # Script to adjust the date format
-# def adjust_index_date_format(dataframe):
-#     """
-#     Adjusts the date format of the index in the given dataframe.
-    
-#     Args:
-#         dataframe (pd.DataFrame): The dataframe to be modified.
-    
-#     Returns:
-#         pd.DataFrame: The modified dataframe with the adjusted date format.
-#     """
 
-#     # Convert the index to datetime with desired format
-#     dataframe.index = pd.to_datetime(dataframe.index)
-
-#     # Sort the index in ascending order
-#     dataframe = dataframe.sort_index()
-
-#     # Convert the index to the desired format
-#     dataframe.index = dataframe.index.strftime('%d-%m-%Y')
-
-#     return dataframe
-
-
-# Script to get the last value in the dataset for the month
+# Function to get the last value in the dataset for the month
 def convert_df_to_monthly (dataframe, index_format):
     """
     Gets the last value for each month in the given dataframe.
@@ -86,23 +63,6 @@ def define_end_period(date_format):
     end_period = (today - timedelta(days=30)).strftime(date_format)
 
     return end_period
-
-
-# def clean_dataset(dataframe):
-#     """
-#     Cleans the given dataframe by removing any infinite or missing values.
-    
-#     Args:
-#         dataframe (pd.DataFrame): The dataframe to be cleaned.
-    
-#     Returns:
-#         pd.DataFrame: The cleaned dataframe.
-#     """
-
-#     # Remove any missing values
-#     clean_data = dataframe.replace([np.inf, -np.inf], np.nan).dropna()
-
-#     return clean_data
 
 
 # Function to plot the prediction vs test data
