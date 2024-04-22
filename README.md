@@ -12,8 +12,9 @@ Folders:
 - src: contains code files organized as follows:
     - (1) Imports raw data (code files begin with '1_')
     - (2) Merges data and performs EDA and feature selection (code files begin with '2_')
-    - (3) Trains models, including on file to grid parameters and other to test subsets (code files begin with '3_')
-    - (4) The best GRU model for forecasting (code files begin with '4_').
+    - (3) Grid each model to find the best parameters' combination and save the best combination of parameters to the folder "src/models_parameters" (code files begin with '3_' and end with "_grid").
+    - (4) Grid each model to evaluate it by applying different subset datasets and outliers removal threshold (code files begin with '3_' and end with "_subsets") using the best parameter's combination.
+    - (5) Use the best GRU model for forecasting (code files begin with '4_').
       - subfolder models_parameters: Located within the 'src' folder, this subfolder contains all saved Keras files with the parameters of the models.
 
 **Author:**
