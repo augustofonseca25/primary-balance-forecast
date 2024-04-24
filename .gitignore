@@ -1,4 +1,7 @@
 .*
 !.gitignore
 data/downloads_revenue
+data/old
+src/old
+src/models_parameters/old
 ~*
