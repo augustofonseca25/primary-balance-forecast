@@ -29,11 +29,11 @@ def convert_df_to_monthly (dataframe, index_format):
     Gets the last value for each month in the given dataframe.
     
     Args:
-        dataframe (pd.DataFrame): The dataframe to be modified.
+        dataframe: The dataframe to be modified.
         index_format: The original dataframe index format 
     
     Returns:
-        pd.DataFrame: The modified dataframe with the last value for the month.
+        DataFrame: The modified dataframe with the last value for the month.
     """
     # Convert the index to datetime with desired format
     dataframe.index = pd.to_datetime(dataframe.index, format = index_format)
@@ -51,7 +51,7 @@ def define_end_period(date_format):
     Define the last period to get data based on a format
 
     Args:
-        format: The desired format for the date
+        date_format: The desired format for the date
 
     Returns:
         str: The last period to get data
@@ -71,10 +71,10 @@ def plot_prediction_vs_test(target_variable, test, prediction, title):
     Plots the prediction and test data.
     
     Args:
-        train (pd.DataFrame): The training data.
-        test (pd.DataFrame): The test data.
-        prediction (pd.DataFrame): The prediction data.
-        title (str): The title of the plot.
+        train: The training data.
+        test: The test data.
+        prediction: The prediction data.
+        title: The title of the plot.
     """
     # Convert the series to dataframes
     test_df = pd.DataFrame({'date': pd.to_datetime(test.index), target_variable: test.values}).set_index('date').to_period('M')
@@ -98,11 +98,11 @@ def remove_outliers(dataframe, threshold=0.20):
     """
     Replaces outliers in the dataframe with NAs based on the given threshold. IQR method is used.
     Args:
-        dataframe (pd.DataFrame): The dataframe to be modified.
-        threshold (float): The quantile threshold to identify outliers.
+        dataframe: The dataframe to be modified.
+        threshold: The quantile threshold to identify outliers.
 
     Returns:
-        pd.DataFrame: The dataframe after outliers removal.
+        DataFrame: The dataframe after outliers removal.
     """
     # Iterate over each column in the dataframe
     for column in dataframe.columns:
@@ -135,10 +135,10 @@ def fill_missing_values(dataframe):
         prioritizing filling from the end of the DataFrame to the start.
     
     Args:
-        dataframe (pd.DataFrame): The dataframe to be modified.
+        dataframe: The dataframe to be modified.
     
     Returns:
-        pd.DataFrame: The dataframe with missing values filled.
+        DataFrame: The dataframe with missing values filled.
     """
     # Convert every column to float
     dataframe = dataframe.astype('float32')
