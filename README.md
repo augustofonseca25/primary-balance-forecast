@@ -4,7 +4,7 @@ This repository contains all the code files used in the Master Thesis final proj
 
 This project uses Autoregressive Integrated Moving Average (ARIMA) models as a baseline - due to their traditional use in economic forecasting - to compare with advanced deep learning models including Recurrent Neural Networks (RNN), Long Short-Term Memory (LSTM), and Gated Recurrent Unit (GRU) in predicting Brazilian Primary Balance. To that end, the models were trained using a dataset comprising monthly data from 2001-2023, including 69 independent variables related to various macroeconomic and financial factors, alongside one dependent variable.
 
-This project was implemented in Python using several different libraries. To organize and clearly state the references, each code script includes, at the beginning of the file, the references used, data sources, and applied packages.
+This project was implemented in Python using several different libraries. To organize and clearly state the references, each code script includes, at the beginning of the file, the references used, data sources, and applied packages. Also, GitHub copilot was used to generate comments and help document the code.
 
 This is the logical structure of this repository:  
 Folders:
